@@ -300,9 +300,9 @@ void b(){
     up[1] = right[5];
     up[2] = right[8];
 
-    right[2] = down[2];
+    right[2] = down[0];
     right[5] = down[1];
-    right[8] = down[0];
+    right[8] = down[2];
 
     down[0] = left[6];
     down[1] = left[3];
