@@ -169,7 +169,7 @@ void d(){
 }
 
 void d_dash(){
-    d();d();d();
+    d();d();//d();
 }
 
 void u(){
@@ -670,26 +670,13 @@ void show_cube(char * arr[]){
     printf("\n");
 }
 
-int main(){
-
-    srand(time(NULL));
-    char * squares[54] = {"w1","w2","w3","w4","w5","w6","w7","w8","w9",
-                            "y1","y2","y3","y4","y5","y6","y7","y8","y9",
-                            "r1","r2","r3","r4","r5","r6","r7","r8","r9",
-                            "o1","o2","o3","o4","o5","o6","o7","o8","o9",
-                            "g1","g2","g3","g4","g5","g6","g7","g8","g9",
-                            "b1","b2","b3","b4","b5","b6","b7","b8","b9"};
-    assign_sides(squares);
-    printf("Unshuffled Cube:\n\n");
-    print_cube();
-    printf("\n");
-
-    //shuffle(squares);
-    assign_sides(squares);
-    printf("Shuffled Cube:\n\n");
-    print_cube();
-    printf("\n");
-
+/**
+    Demo to show that all moves, and their reverses, work correctly
+    Program runs 1000 random moves, and then does the inverse of each move
+    in reverse order. If moves are correct, the cube should be in the
+    same state at the end as it was in the beginning
+ */
+void demo(){
     char * original[54];
     char * new[54];
     char * reverse[54];
@@ -699,21 +686,21 @@ int main(){
     make_cube(original);
 
 
-    int move_size = 1;
+    int move_size = 1000;
     int count = 0;
-    //int moves[move_size];
-    int moves [] = {2};
+    int moves[move_size];
+    //int moves [] = {2};
     int inverse_moves[move_size];
     int x = 0;
 
-    // while((count < move_size || is_solved()) && x != 20){
-    //     int x = get_random_no(6);
-    //     // printf("Enter a move: ");                                                                                                                                                                
-    //     // scanf("%d", &x); 
+    while((count < move_size || is_solved()) && x != 20){
+        int x = get_random_no(6);
+        // printf("Enter a move: ");                                                                                                                                                                
+        // scanf("%d", &x); 
         
-    //     moves[count] = x;
-    //     count++;
-    // }
+        moves[count] = x;
+        count++;
+    }
 
     for(i = 0; i < move_size; i++)
         move(moves[i]);
@@ -739,14 +726,46 @@ int main(){
 
     make_cube(reverse);
 
-    // printf("Original:\n");
-    // show_cube(original);
-    // printf("New:\n");
-    // show_cube(new);
-    // printf("Original Again:\n");
-    // show_cube(reverse);
-    
+    printf("Original:\n");
+    show_cube(original);
+    printf("New:\n");
+    show_cube(new);
+    printf("Original Again:\n");
+    show_cube(reverse);
 
+
+    // do quick check to make sure that original is equal to reverse
+    for(i = 0; i < 54; i++)
+    {
+        if(strcmp(original[i], reverse[i]) != 0){
+            printf("Problem at %d: %s != %s\n", i, original[i], reverse[i]);
+            return false;
+        }
+    }
+    return true;
+}
+
+int main(){
+
+    srand(time(NULL));
+    char * squares[54] = {"w1","w2","w3","w4","w5","w6","w7","w8","w9",
+                            "y1","y2","y3","y4","y5","y6","y7","y8","y9",
+                            "r1","r2","r3","r4","r5","r6","r7","r8","r9",
+                            "o1","o2","o3","o4","o5","o6","o7","o8","o9",
+                            "g1","g2","g3","g4","g5","g6","g7","g8","g9",
+                            "b1","b2","b3","b4","b5","b6","b7","b8","b9"};
+    assign_sides(squares);
+    printf("Unshuffled Cube:\n\n");
+    print_cube();
+    printf("\n");
+
+    shuffle(squares);
+    assign_sides(squares);
+    printf("Shuffled Cube:\n\n");
+    print_cube();
+    printf("\n");
+
+    //demo();
 
 
     
