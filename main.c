@@ -467,7 +467,7 @@ bool side_solved(char * arr []){
     return false;
 }
 
-bool is_solved(){
+bool is_solved(char * side){
     bool front_solved = side_solved(front);
     bool back_solved = side_solved(back);
     bool left_solved = side_solved(left);
@@ -475,8 +475,22 @@ bool is_solved(){
     bool up_solved = side_solved(up);
     bool down_solved = side_solved(down);
 
-    if(front_solved && back_solved && left_solved && right_solved && up_solved && down_solved)
-        return true;
+    if(strcmp(side, "all") == 0)
+        return front_solved && back_solved && left_solved && right_solved && up_solved && down_solved;
+    if(strcmp(side, "any") == 0)
+        return front_solved || back_solved || left_solved || right_solved || up_solved || down_solved;
+    if(strcmp(side, "front") == 0)
+        return front_solved;
+    if(strcmp(side, "back") == 0)
+        return back_solved;
+    if(strcmp(side, "left") == 0)
+        return left_solved;
+    if(strcmp(side, "right") == 0)
+        return right_solved;
+    if(strcmp(side, "up") == 0)
+        return up_solved;
+    if(strcmp(side, "down") == 0)
+        return down_solved;
 
     return false;
 
@@ -676,7 +690,7 @@ void show_cube(char * arr[]){
     in reverse order. If moves are correct, the cube should be in the
     same state at the end as it was in the beginning
  */
-void demo(){
+bool demo(){
     char * original[54];
     char * new[54];
     char * reverse[54];
@@ -693,7 +707,7 @@ void demo(){
     int inverse_moves[move_size];
     int x = 0;
 
-    while((count < move_size || is_solved()) && x != 20){
+    while((count < move_size || is_solved("all")) && x != 20){
         int x = get_random_no(6);
         // printf("Enter a move: ");                                                                                                                                                                
         // scanf("%d", &x); 
@@ -711,7 +725,7 @@ void demo(){
 
     count = 0;
 
-    if(!is_solved())
+    if(!is_solved("all"))
         while(count < move_size){
             int i = move_size - 1 - count;
             int movement = moves[i];
@@ -766,8 +780,16 @@ int main(){
     printf("\n");
 
     //demo();
+    bool solved = is_solved("all");
+    if(solved){
+        printf("Cube Solved:\n\n");
+        print_cube();
+        printf("\n");
+    }
+    else{
+        printf("Failed\n");
+    }
 
 
-    
     return 0;
 }
